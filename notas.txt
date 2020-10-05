@@ -1,0 +1,245 @@
+
+//
+// DAY 2
+// SERVER COM NODE.JS { START }
+//
+
+    TERMINAL
+      mkdir server                  // colocar a REST API
+      cd server                     // entrar na pasta
+      npm init -y                   // cria package.json -> guarda as dependências da app
+      mkdir src                     // criar pasta
+
+      criar ficheiro "server.ts"    // principal arquivo da app
+                                    // primeiro arquivo aberto quando executamos o server.
+                                    // principal arquivo da app (define todas as rotas)
+
+      npm install -g npm            // 
+      npm init -y
+      yarn add typescript -D 
+      || npm instal typescript -D   // instalar o typescript  
+                                    // ( '-D' -> dependência só para a fase de desenvolvimento )
+      yarn tsc --init 
+      || npx tsc --init             // criar o "tsconfig.json", arquivo principal de configuração do typescript 
+
+      no "tsconfig.json"
+      "target": "es2017"            // converter as funcionalidades até à versão do JS2017 (versão que o node entende)
+
+      npm add ts-node-dev -D     // dependência de desenvolvimento - executa o script Node. Se houver alguma alteração ele reinicia.
+
+
+
+    FICHEIRO package.json
+
+        "scripts": {
+            "start": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/server.ts"
+          },
+
+        OU
+        "scripts": {
+            "start": "tsnd --transpile-only --ignore-watch node_modules --respawn src/server.ts"
+          },
+
+              passar as flags
+              ( --transpile-only ) -> converte o código de typescript para javascript
+              ( --ignore-watch node_modules ) -> não fazer conversões dentro da pasta node_modules
+              ( --respawn ) -> sempre que houver uma alteração reinicia o server
+        
+        
+    TERMINAL
+      npm start -> iniciar a app / servidor
+      Ctr C -> fechar a app
+
+
+
+
+    (abrir nova janela do terminal)
+    TERMINAL -> INSTALAR DEPENDÊNCIAS (ferramentas de terceiros)
+
+      npm install express               // express -> https://expressjs.com/
+      npm install @types/express -D     // @types -> adicionar o typescript
+
+
+    FICHEIRO server.tsc
+      - const app = express();
+      - app.listen(3333);
+
+        MÉTODOS HTTP
+          // GET:     buscar ou listar uma info     app.get()
+          // POST:    criar alguma nova info        app.post()
+          // PUT:     atualizar uma info            app.put()
+          // DELETE:  apagar uma info existente     app.delete()
+
+        Um navegador por padrão quando acede a um endereço usa o método GET
+        
+        Para aceder a outros métodos como o POST:
+        https://insomnia.rest/      // insomnia cor
+        https://www.postman.com/    // mention by Bengas
+
+        podemos ter a mesma rota para métodos diferentes
+          - app.get('/users')
+          - app.post('/users')
+
+        // corpo 
+
+
+    ESTUDAR AS ROUTES NECESSÁRIAS (FUNCIONALIDADES)
+      - olhando para o prototipo
+      - criar arquivo README.md
+
+
+    TERMINAL
+      npm install knex sqlite3 
+        - instalar knex e sqlite3
+        - knex é um query builder que permite escrever SQL query's em JS
+        - http://knexjs.org/
+
+      Knex -> escrever SQL com JS
+        // SQL version    -> SELECT * FROM users
+        // KNEX version   -> knex('users).select('*');
+
+    src -> nova pasta 'database'
+    database -> connection.ts
+
+    CRIAR TABELAS NA DB
+      // migrations -> controlam a versão do banco de dados
+
+      Knex usa JS e não typescript
+      - contornar criando o ficheiro
+        - knexfile.ts
+
+      migrations / 00_create_users.ts
+
+      - package.json
+          "knex:migrate": "knex --knexfile knexfile.ts migrate:latest",
+          "knex:migrate:rollback": "knex --knexfile knexfile.ts migrate:rollback"
+
+      TERMINAL
+        yarn knex:migrate
+        - criar a base de dados 'database.sqlite' com base nas migrations 
+
+        VSCODE EXTENSION
+          - SQLite
+
+        - clicar com o btn direito sobre o database.sqlite e escolher open database
+
+      Criar restantes tabelas
+        - 01_create_classes.ts
+        - 02_create_class_schedule.ts
+        - 03_create_connections.ts
+        
+        yarn knex:migrate
+
+
+    criar ficheiro routes.ts na pasta src
+
+    - routes.post('/classes'
+        - insomnia
+            - POST: create classes
+              - POST: http://localhost:3333/classes
+              - JSON : 
+                  {
+                    "name": "Bruno Lobato",
+                    "avatar" : "https://avatars0.githubusercontent.com/u/57861255?s=460&u=eea5ebe75cf29060801d87d6b3c6e997a07f068a&v=4",
+                    "whatsapp" : "917037599",
+                    "bio" : "Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Curabitur blandit tempus porttitor.",
+                    "subject" : "Russian with Siberian accent",
+                    "cost" : 80,
+                    "schedule" : [
+                      { "week_day" : 1, "from" : "8:00", "to" : "12:00"},
+                      { "week_day" : 3, "from" : "10:00", "to" : "14:00"},
+                      { "week_day" : 4, "from" : "9:00", "to" : "11:00"}
+                    ]
+                  }
+
+    pasta controlers / ClassController.ts
+
+
+    // CORS - 
+    // permitir que endereços diferentes acessam à API localhost:3000(app) vs localhost:3333(server)
+      TERMINAL
+      yarn add cors
+      yarn add @types/cors -D
+
+
+    // OTHERS
+      // TERMINAL -> killall node
+
+
+//
+// SERVER COM NODE.JS { END }
+//
+
+
+
+//
+// DAY 3
+// FINALIZAR FRONTEND { START }
+//
+
+https://react-select.com/
+
+STATE _ sempre que precisarmos de manipular um valor dentro de um elemento tempos de criar um STATE
+
+no react sempre que criamos um interface com o react temos de declarar os estados
+react declarative
+
+AXIOS
+yarn add axios
+
+
+
+
+
+//
+// DAY 4
+// FRONTEND NATIVE { START }
+//
+
+https://expo.io/
+
+imolador https://youtu.be/eSjFDWYkdxM
+
+  -conseguimos aproveitar 90% ou mais do ReactJS para o React Native
+
+  . semelhanças
+    - componentes JSX
+
+  . diferenças
+    - não usamos as tags HTML, mas sim os componentes pré-criados pelo pack React.Native
+    - div -> View
+    - no mobile não temos elementos com significado semântico, portanto é tudo passado para <View>
+    - o mesmo com o texto, não há H1, H2, ..., p apenas <Text> [ basta estilizar de forma diferente]
+    - no native não há CSS. 
+    - não há herança de estilos
+    - todos os elementos já têm display: flex
+    - flex-direction por defeito é 'column' em vez de 'row'
+    - por padrão o Native não lê svg
+         expo install native svg
+    - em mobile existe o conceito de densidade de pixels
+    
+
+
+
+expo google fonts
+expo install expo-font @expo-google-fonts/archivo @expo-google-fonts/poppins
+
+https://github.com/expo/google-fonts
+importar fontes
+
+NAVEGAÇÃO 
+rotas dentro do react native
+https://reactnavigation.org/
+
+1. yarn add @react-navigation/native
+2. Installing dependencies into an Expo managed project 
+  expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+3. Hello React Navigation
+  yarn add @react-navigation/stack
+4. Tab navigation
+  yarn add @react-navigation/bottom-tabs
+
+  3 tipos de navegação mais comum
+  stack - navegação em pilha (quando se pode voltar para a tela anterior)
+  tabs
+  drawer
